@@ -8,14 +8,12 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using RentaAutos.Models;
-using RentaAutos.Logics;
 
 namespace RentaAutos.Controllers
 {
     public class MarcaController : Controller
     {
         private ModeloRentaAuto db = new ModeloRentaAuto();
-        private MarcaLogic ml = new MarcaLogic();
 
         // GET: Marca
         public async Task<ActionResult> Index()
