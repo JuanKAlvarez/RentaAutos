@@ -1,0 +1,69 @@
+﻿@model IEnumerable<RentaAutos.Models.AUTOMOVIL>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.MARCA.NOMBRE_MARCA)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TIPO.NOMBRE_TIPO)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GAMA)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FECHA_CREACION)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PRECIO)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OCUPADO)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ACTIVO)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.MARCA.NOMBRE_MARCA)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TIPO.NOMBRE_TIPO)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GAMA)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FECHA_CREACION)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PRECIO)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OCUPADO)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ACTIVO)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID_AUTOMOVIL }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID_AUTOMOVIL }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID_AUTOMOVIL })
+        </td>
+    </tr>
+}
+
+</table>
