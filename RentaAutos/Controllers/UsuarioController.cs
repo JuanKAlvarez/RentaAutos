@@ -49,7 +49,7 @@ namespace RentaAutos.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ID_USUARIO,USUARIO1,CONTRASENA,NOMBRE_USUARIO,APELLIDO_USUARIO,FECHA_NACIMIENTO,DIRECCION,TELEFONO,CORRECO,ID_ROL")] USUARIO uSUARIO)
+        public async Task<ActionResult> Create([Bind(Include = "ID_USUARIO,USUARIO1,CONTRASENA,NOMBRE_USUARIO,APELLIDO_USUARIO,FECHA_NACIMIENTO,DIRECCION,TELEFONO,CORREO,ID_ROL")] USUARIO uSUARIO)
         {
             if (ModelState.IsValid)
             {
@@ -83,7 +83,7 @@ namespace RentaAutos.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ID_USUARIO,USUARIO1,CONTRASENA,NOMBRE_USUARIO,APELLIDO_USUARIO,FECHA_NACIMIENTO,DIRECCION,TELEFONO,CORRECO,ID_ROL")] USUARIO uSUARIO)
+        public async Task<ActionResult> Edit([Bind(Include = "ID_USUARIO,USUARIO1,CONTRASENA,NOMBRE_USUARIO,APELLIDO_USUARIO,FECHA_NACIMIENTO,DIRECCION,TELEFONO,CORREO,ID_ROL")] USUARIO uSUARIO)
         {
             if (ModelState.IsValid)
             {
