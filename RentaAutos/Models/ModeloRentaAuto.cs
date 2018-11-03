@@ -82,7 +82,7 @@ namespace RentaAutos.Models
                 .IsUnicode(false);
 
             modelBuilder.Entity<USUARIO>()
-                .Property(e => e.CORRECO)
+                .Property(e => e.CORREO)
                 .IsUnicode(false);
 
             modelBuilder.Entity<USUARIO>()

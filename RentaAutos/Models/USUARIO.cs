@@ -40,7 +40,7 @@ namespace RentaAutos.Models
         public string TELEFONO { get; set; }
 
         [Required]
-        public string CORRECO { get; set; }
+        public string CORREO { get; set; }
 
         public long ID_ROL { get; set; }
 
