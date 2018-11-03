@@ -18,7 +18,7 @@ namespace RentaAutos.Controllers
         // GET: Marca
         public async Task<ActionResult> Index()
         {
-            return View(await db.MARCA.ToListAsync());
+            return View(await db.MARCA.Where(x=> x.ACTIVO).ToListAsync());
         }
 
         // GET: Marca/Details/5
@@ -51,11 +51,16 @@ namespace RentaAutos.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.MARCA.Add(mARCA);
+                MARCA m = new MARCA
+                {
+                    FECHA_CREACION = DateTime.Now,
+                    ACTIVO = true,
+                    NOMBRE_MARCA = mARCA.NOMBRE_MARCA
+                };
+                db.MARCA.Add(m);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-
             return View(mARCA);
         }
 
@@ -83,7 +88,11 @@ namespace RentaAutos.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(mARCA).State = EntityState.Modified;
+                var marca = await db.MARCA.FindAsync(mARCA.ID_MARCA);
+
+
+                marca.NOMBRE_MARCA = mARCA.NOMBRE_MARCA;
+                db.Entry(marca).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
@@ -91,30 +100,33 @@ namespace RentaAutos.Controllers
         }
 
         // GET: Marca/Delete/5
+        [HttpPost]
         public async Task<ActionResult> Delete(long? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            MARCA mARCA = await db.MARCA.FindAsync(id);
-            if (mARCA == null)
+            else
             {
-                return HttpNotFound();
+                var marca = await db.MARCA.FindAsync(id.Value);
+                marca.ACTIVO = false;
+                db.Entry(marca).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+                return Json(new { success = true, message = "Marca Eliminada exitosamente" }, JsonRequestBehavior.AllowGet);
             }
-            return View(mARCA);
         }
 
-        // POST: Marca/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(long id)
-        {
-            MARCA mARCA = await db.MARCA.FindAsync(id);
-            db.MARCA.Remove(mARCA);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
-        }
+        //// POST: Marca/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> DeleteConfirmed(long id)
+        //{
+        //    MARCA mARCA = await db.MARCA.FindAsync(id);
+        //    db.MARCA.Remove(mARCA);
+        //    await db.SaveChangesAsync();
+        //    return RedirectToAction("Index");
+        //}
 
         protected override void Dispose(bool disposing)
         {
