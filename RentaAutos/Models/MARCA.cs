@@ -26,6 +26,7 @@ namespace RentaAutos.Models
         public string NOMBRE_MARCA { get; set; }
 
         [Display(Name = "Fecha Creacion")]
+        [DisplayFormat(DataFormatString = "{0:MMM-dd-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime FECHA_CREACION { get; set; }
 
         [Display(Name = "Activo")]

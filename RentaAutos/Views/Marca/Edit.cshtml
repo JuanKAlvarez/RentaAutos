@@ -1,7 +1,7 @@
 ﻿@model RentaAutos.Models.MARCA
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Editar";
 }
 
 <h2>Edit</h2>
@@ -26,33 +26,15 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.FECHA_CREACION, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.FECHA_CREACION, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FECHA_CREACION, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ACTIVO, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.ACTIVO)
-                    @Html.ValidationMessageFor(model => model.ACTIVO, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Guardar" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Regresar", "Index")
 </div>
 
 @section Scripts {
