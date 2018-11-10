@@ -19,14 +19,24 @@ namespace RentaAutos.Models
         public long ID_AUTOMOVIL { get; set; }
 
         [Required]
+        [Display(Name = "Gama")]
         public string GAMA { get; set; }
 
+        [Required]
+        [Display(Name = "Fecha Creación")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime FECHA_CREACION { get; set; }
 
+        [Required]
+        [Display(Name = "Precio")]
         public long PRECIO { get; set; }
 
+        [Required]
+        [Display(Name = "Ocupado")]
         public bool OCUPADO { get; set; }
 
+        [Required]
+        [Display(Name = "Activo")]
         public bool ACTIVO { get; set; }
 
         public long ID_MARCA { get; set; }
