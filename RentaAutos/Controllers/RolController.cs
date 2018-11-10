@@ -18,7 +18,7 @@ namespace RentaAutos.Controllers
         // GET: Rol
         public async Task<ActionResult> Index()
         {
-            return View(await db.ROL.ToListAsync());
+            return View(await db.ROL.Where(x => x.ACTIVO).ToListAsync());
         }
 
         // GET: Rol/Details/5
@@ -46,17 +46,14 @@ namespace RentaAutos.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "ID_ROL,NOMBRE_ROL,FECHA_CREACION,ACTIVO")] ROL rOL)
         {
-            if (ModelState.IsValid)
-            {
-                db.ROL.Add(rOL);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
+            rOL.ACTIVO = true;
+            rOL.FECHA_CREACION = DateTime.Now;
 
-            return View(rOL);
+            db.ROL.Add(rOL);
+            await db.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
 
         // GET: Rol/Edit/5
@@ -81,40 +78,24 @@ namespace RentaAutos.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "ID_ROL,NOMBRE_ROL,FECHA_CREACION,ACTIVO")] ROL rOL)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(rOL).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-            return View(rOL);
-        }
-
-        // GET: Rol/Delete/5
-        public async Task<ActionResult> Delete(long? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ROL rOL = await db.ROL.FindAsync(id);
-            if (rOL == null)
-            {
-                return HttpNotFound();
-            }
-            return View(rOL);
-        }
-
-        // POST: Rol/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(long id)
-        {
-            ROL rOL = await db.ROL.FindAsync(id);
-            db.ROL.Remove(rOL);
+            var rol = await db.ROL.FindAsync(rOL.ID_ROL);
+            rol.NOMBRE_ROL = rOL.NOMBRE_ROL;
+            db.Entry(rol).State = EntityState.Modified;
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
+
+        // GET: Rol/Delete/5
+        [HttpPost]
+        public async Task<ActionResult> Delete(long id)
+        {
+            var rol = await db.ROL.FindAsync(id);
+            rol.ACTIVO = false;
+            db.Entry(rol).State = EntityState.Modified;
+            await db.SaveChangesAsync();
+            return Json(new { success = true, message = "El rol ha sido Eliminada exitosamente" }, JsonRequestBehavior.AllowGet);
+        }
+
 
         protected override void Dispose(bool disposing)
         {

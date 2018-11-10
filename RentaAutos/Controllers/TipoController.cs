@@ -18,7 +18,7 @@ namespace RentaAutos.Controllers
         // GET: Tipo
         public async Task<ActionResult> Index()
         {
-            return View(await db.TIPO.ToListAsync());
+            return View(await db.TIPO.Where(x=> x.ACTIVO).ToListAsync());
         }
 
         // GET: Tipo/Details/5
@@ -46,17 +46,14 @@ namespace RentaAutos.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "ID_TIPO,NOMBRE_TIPO,FECHA_CREACION,ACTIVO")] TIPO tIPO)
         {
-            if (ModelState.IsValid)
-            {
-                db.TIPO.Add(tIPO);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
+            tIPO.ACTIVO = true;
+            tIPO.FECHA_CREACION = DateTime.Now;
 
-            return View(tIPO);
+            db.TIPO.Add(tIPO);
+            await db.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
 
         // GET: Tipo/Edit/5
@@ -78,42 +75,23 @@ namespace RentaAutos.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "ID_TIPO,NOMBRE_TIPO,FECHA_CREACION,ACTIVO")] TIPO tIPO)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(tIPO).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-            return View(tIPO);
+            var ti = await db.TIPO.FindAsync(tIPO.ID_TIPO);
+            ti.NOMBRE_TIPO = tIPO.NOMBRE_TIPO;
+            db.Entry(ti).State = EntityState.Modified;
+            await db.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
 
         // GET: Tipo/Delete/5
-        public async Task<ActionResult> Delete(long? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            TIPO tIPO = await db.TIPO.FindAsync(id);
-            if (tIPO == null)
-            {
-                return HttpNotFound();
-            }
-            return View(tIPO);
-        }
-
-        // POST: Tipo/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(long id)
+        public async Task<ActionResult> Delete(long id)
         {
             TIPO tIPO = await db.TIPO.FindAsync(id);
-            db.TIPO.Remove(tIPO);
+            tIPO.ACTIVO = false;
+            db.Entry(tIPO).State = EntityState.Modified;
             await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return Json(new { success = true, message = "El tipo ha sido Eliminada exitosamente" }, JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)

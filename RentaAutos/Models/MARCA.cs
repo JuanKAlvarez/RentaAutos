@@ -18,14 +18,14 @@ namespace RentaAutos.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required]
-        [Display(Name = "Numero Marca")]
+        //[Display(Name = "Numero Marca")]
         public long ID_MARCA { get; set; }
 
         [Required]
         [Display(Name = "Nombre Marca")]
         public string NOMBRE_MARCA { get; set; }
 
-        [Display(Name = "Fecha Creacion")]
+        [Display(Name = "Fecha Creación")]
         [DisplayFormat(DataFormatString = "{0:MMM-dd-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime FECHA_CREACION { get; set; }
 
