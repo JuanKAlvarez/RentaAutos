@@ -1,0 +1,16 @@
+﻿@if (Request.IsAuthenticated)
+{
+    <ul class="nav nav-pills nav-stacked">
+        <li class="@(ViewContext.RouteData.Values["controller"].ToString() == "Home" ? "active" : "")">@Html.ActionLink("Home", "Index", "Home")</li>
+        <li class="@(ViewContext.RouteData.Values["controller"].ToString() == "Marca" ? "active" : "")">@Html.ActionLink("Marca", "Index", "Marca")
+        <li class="@(ViewContext.RouteData.Values["controller"].ToString() == "Automovil" ? "active" : "")">@Html.ActionLink("Automovil", "Index", "Automovil")</li>
+        <li class="@(ViewContext.RouteData.Values["controller"].ToString() == "Renta" ? "active" : "")">@Html.ActionLink("Renta", "Index", "Renta")</li>
+        <li class="@(ViewContext.RouteData.Values["controller"].ToString() == "Rol" ? "active" : "")">@Html.ActionLink("Rol", "Index", "Rol")</li>
+        <li class="@(ViewContext.RouteData.Values["controller"].ToString() == "Tipo" ? "active" : "")">@Html.ActionLink("Tipo", "Index", "Tipo")</li>
+        <li class="@(ViewContext.RouteData.Values["controller"].ToString() == "Usuario" ? "active" : "")">@Html.ActionLink("Usuario", "Index", "Usuario")</li>
+
+    </ul>    
+}
+else
+{
+}
