@@ -3,12 +3,9 @@
 @{
     ViewBag.Title = "Index";
 }
-
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<div class="panel-heading">
+    <h3>@ViewBag.Title  | @Html.ActionLink(" ", "Create", null, new { @class = "btn-default glyphicon-plus", data_toggle = "tooltip", data_placement = "bottom", data_original_title = "Nuevo" }) </h3>
+</div>
 <table class="table">
     <tr>
         <th>
@@ -23,23 +20,105 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.NOMBRE_ROL)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FECHA_CREACION)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ACTIVO)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID_ROL }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID_ROL }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID_ROL })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr id="rol_@item.ID_ROL">
+            <td>
+                @Html.DisplayFor(modelItem => item.NOMBRE_ROL)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FECHA_CREACION)
+            </td>
+            <td>
+                @if (item.ACTIVO)
+                {
+                    <label class="label label-success">Si</label>
+                }
+                else
+                {
+                    <label class="label label-danger">No</label>
+                }
+            </td>
+            <td>
+                @Html.ActionLink(" ", "Edit", new { id = item.ID_ROL }, new { @class = "btn-default glyphicon glyphicon-pencil", title = "Editar" }) |
+                <a href="#" title="Eliminar" onclick="deleteMarca(@item.ID_ROL)">
+                    <span class="btn-default glyphicon glyphicon-trash"></span>
+                </a> |
+                <a href="#" title="Detalle" onclick="detailMarca(@item.ID_ROL)">
+                    <span class="btn-default glyphicon glyphicon-check"></span>
+                </a>
+            </td>
+        </tr>
+    }
 
 </table>
+<script src="~/Scripts/SweetAlert.js"></script>
+<script>
+    function detailMarca(id) {
+        $('#tipo').text($('#rol_' + id + ' td:eq(0)').text().trim());
+        $('#fecha').text($('#rol_' + id + ' td:eq(1)').text().trim());
+        $('#exampleModal').modal({
+            show: 'false'
+        });
+    }
+    function deleteMarca(id) {
+        swal({
+            title: "Estas seguro?",
+            text: "Deseas eliminar el registro ",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    url: "/Rol/Delete",
+                    dataType: "json",
+                    type: 'POST',
+                    cache: false,
+                    data: {
+                        id: id
+                    },
+                    success: function (data) {
+                        if (data.success) {
+                            $('#rol_' + id).remove();
+                            swal(data.message, {
+                                icon: "success",
+                            });
+                        } else {
+                            swal("Error !", "Error al eliminar el tipo", "error");
+                        }
+                    }
+                });
+            }
+        });
+    }
+</script>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><strong>Detalle Rol</strong></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <label class="col-lg-4"><strong>Rol:</strong></label>
+                    <label id="tipo" class="col-lg-8"></label>
+                </div>
+                <div class="row">
+                    <label class="col-lg-4"><strong>Fecha Creacion:</strong></label>
+                    <label id="fecha" class="col-lg-8"></label>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
