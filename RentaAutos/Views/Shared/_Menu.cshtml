@@ -1,7 +1,7 @@
-﻿
+﻿@using Microsoft.AspNet.Identity
 <!--Barra de Menu -->
 <nav class="navbar navbar-default">
-    <div class="container-fluid">
+    <div class="container">
         <!--Iconos responsive - menu colapsable -->
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -15,29 +15,18 @@
         <!-- Menu colapsable-->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <!-- Links de menu a la Izquierda-->
-            <ul class="nav navbar-nav">
-                @if (Request.IsAuthenticated)
-                {
-                    <li> <a href="">|</a> </li>
-                    <li>@Html.ActionLink("Marca", "Index", "Marca")</li>
-                    <li>@Html.ActionLink("Automovil", "Index", "Automovil")</li>
-                    <li>@Html.ActionLink("Renta", "Index", "Renta")</li>
-                    <li>@Html.ActionLink("Rol", "Index", "Rol")</li>
-                    <li>@Html.ActionLink("Tipo", "Index", "Tipo")</li>
-                    <li>@Html.ActionLink("Usuario", "Index", "Usuario")</li>
-
-                }
-                else
-                {
-                }
-
-
-            </ul>
             <!-- Links de menu a la Derecha-->
             <ul class="nav navbar-nav navbar-right">
-                <li> <a href="">|</a> </li>
-                <li>@Html.ActionLink("Acerca de", "About", "Home")</li>
-                <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
+                <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "active" : "")">@Html.ActionLink("Acerca de", "About", "Home")</li>
+                <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "contact" : "")">@Html.ActionLink("Contacto", "Contact", "Home")</li>
+                <li>
+                    @if (Request.IsAuthenticated)
+                    {
+                        @Html.ActionLink("Hola " + User.Identity.GetUserName().Split('@')[0] + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                    }
+
+
+                </li>
                 <li class="dropdown">
                     <a href="#"
                        class="dropdown-toggle"
@@ -48,8 +37,24 @@
                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li>@Html.ActionLink("Iniciar sesión", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-                        <li>@Html.ActionLink("Registrarse", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+
+                        @if (Request.IsAuthenticated)
+                        {
+
+                            using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "" }))
+                            {
+                                @Html.AntiForgeryToken()
+
+                                <li><a class = "btn" href="javascript:document.getElementById('logoutForm').submit()">Cerrar sesión</a></li>
+
+                            }
+                        }
+                        else
+                        {
+                            <li>@Html.ActionLink("Iniciar sesión", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+                            <li>@Html.ActionLink("Registrarse", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+                        }
+
                     </ul>
                 </li>
             </ul>
