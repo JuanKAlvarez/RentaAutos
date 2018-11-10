@@ -322,6 +322,7 @@
     <Content Include="Views\Tipo\Edit.cshtml" />
     <Content Include="Views\Tipo\Index.cshtml" />
     <Content Include="Views\Shared\_Menu.cshtml" />
+    <Content Include="Views\Shared\_MenuVertical.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
