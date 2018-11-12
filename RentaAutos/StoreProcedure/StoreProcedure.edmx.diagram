@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="3c434bee3c9f488e8b2c1b2be34f05b9" Name="Diagram1">
+        <EntityTypeShape EntityType="SP_DB_RENTA_AUTO_Model.AUTOMOVIL" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="SP_DB_RENTA_AUTO_Model.MARCA" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SP_DB_RENTA_AUTO_Model.RENTA" Width="1.5" PointX="5.25" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SP_DB_RENTA_AUTO_Model.ROL" Width="1.5" PointX="0.75" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SP_DB_RENTA_AUTO_Model.TIPO" Width="1.5" PointX="0.75" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SP_DB_RENTA_AUTO_Model.USUARIO" Width="1.5" PointX="3" PointY="8.875" IsExpanded="true" />
+        <AssociationConnector Association="SP_DB_RENTA_AUTO_Model.FK__AUTOMOVIL__ID_MA__08EA5793" ManuallyRouted="false" />
+        <AssociationConnector Association="SP_DB_RENTA_AUTO_Model.FK__AUTOMOVIL__ID_TI__09DE7BCC" ManuallyRouted="false" />
+        <AssociationConnector Association="SP_DB_RENTA_AUTO_Model.FK__RENTA__ID_AUTOMO__173876EA" ManuallyRouted="false" />
+        <AssociationConnector Association="SP_DB_RENTA_AUTO_Model.FK__RENTA__ID_USUARI__182C9B23" ManuallyRouted="false" />
+        <AssociationConnector Association="SP_DB_RENTA_AUTO_Model.FK__USUARIO__ID_ROL__1273C1CD" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

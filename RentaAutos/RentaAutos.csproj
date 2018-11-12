@@ -58,6 +58,8 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -221,6 +223,63 @@
     <Compile Include="Models\USUARIO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="StoreProcedure\AUTOMOVIL.cs">
+      <DependentUpon>StoreProcedure.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StoreProcedure\ListarAutomovilesActivos_SP_Result.cs">
+      <DependentUpon>StoreProcedure.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StoreProcedure\ListarAutomovilesDisponibles_SP1_Result.cs">
+      <DependentUpon>StoreProcedure.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StoreProcedure\ListarAutomovilesDisponibles_SP1_Result1.cs">
+      <DependentUpon>StoreProcedure.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StoreProcedure\ListarAutomovilesDisponibles_SP_Result.cs">
+      <DependentUpon>StoreProcedure.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StoreProcedure\ListarMarcasActivas_SP_Result.cs">
+      <DependentUpon>StoreProcedure.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StoreProcedure\ListarRolesActivos_SP_Result.cs">
+      <DependentUpon>StoreProcedure.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StoreProcedure\ListarTiposActivos_SP_Result.cs">
+      <DependentUpon>StoreProcedure.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StoreProcedure\ListarUsuarios_SP_Result.cs">
+      <DependentUpon>StoreProcedure.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StoreProcedure\MARCA.cs">
+      <DependentUpon>StoreProcedure.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StoreProcedure\RENTA.cs">
+      <DependentUpon>StoreProcedure.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StoreProcedure\ROL.cs">
+      <DependentUpon>StoreProcedure.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StoreProcedure\StoreProcedure.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StoreProcedure.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StoreProcedure\StoreProcedure.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StoreProcedure.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StoreProcedure\StoreProcedure.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StoreProcedure.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="StoreProcedure\TIPO.cs">
+      <DependentUpon>StoreProcedure.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StoreProcedure\USUARIO.cs">
+      <DependentUpon>StoreProcedure.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -240,6 +299,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Script BD\Renta.sql" />
     <Content Include="Script BD\Script.sql" />
+    <Content Include="Script BD\StoreProcedures.sql" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -257,6 +317,16 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\SweetAlert.js" />
+    <Content Include="StoreProcedure\StoreProcedure.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>StoreProcedure.edmx</DependentUpon>
+      <LastGenOutput>StoreProcedure.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="StoreProcedure\StoreProcedure.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>StoreProcedure.edmx</DependentUpon>
+      <LastGenOutput>StoreProcedure.cs</LastGenOutput>
+    </Content>
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -323,6 +393,13 @@
     <Content Include="Views\Tipo\Index.cshtml" />
     <Content Include="Views\Shared\_Menu.cshtml" />
     <Content Include="Views\Shared\_MenuVertical.cshtml" />
+    <EntityDeploy Include="StoreProcedure\StoreProcedure.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>StoreProcedure.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="StoreProcedure\StoreProcedure.edmx.diagram">
+      <DependentUpon>StoreProcedure.edmx</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -339,6 +416,9 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

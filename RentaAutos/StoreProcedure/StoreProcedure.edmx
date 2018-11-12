@@ -1,0 +1,594 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SP_DB_RENTA_AUTO_Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AUTOMOVIL">
+          <Key>
+            <PropertyRef Name="ID_AUTOMOVIL" />
+          </Key>
+          <Property Name="ID_AUTOMOVIL" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GAMA" Type="varchar(max)" Nullable="false" />
+          <Property Name="FECHA_CREACION" Type="datetime" Nullable="false" />
+          <Property Name="PRECIO" Type="bigint" Nullable="false" />
+          <Property Name="OCUPADO" Type="bit" Nullable="false" />
+          <Property Name="ACTIVO" Type="bit" Nullable="false" />
+          <Property Name="ID_MARCA" Type="bigint" Nullable="false" />
+          <Property Name="ID_TIPO" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MARCA">
+          <Key>
+            <PropertyRef Name="ID_MARCA" />
+          </Key>
+          <Property Name="ID_MARCA" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOMBRE_MARCA" Type="varchar(max)" Nullable="false" />
+          <Property Name="FECHA_CREACION" Type="datetime" Nullable="false" />
+          <Property Name="ACTIVO" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RENTA">
+          <Key>
+            <PropertyRef Name="ID_RENTA" />
+          </Key>
+          <Property Name="ID_RENTA" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PRECIO" Type="bigint" Nullable="false" />
+          <Property Name="FECHA_ALQUILER" Type="datetime" Nullable="false" />
+          <Property Name="ID_AUTOMOVIL" Type="bigint" Nullable="false" />
+          <Property Name="ID_USUARIO" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ROL">
+          <Key>
+            <PropertyRef Name="ID_ROL" />
+          </Key>
+          <Property Name="ID_ROL" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOMBRE_ROL" Type="varchar(max)" Nullable="false" />
+          <Property Name="FECHA_CREACION" Type="datetime" Nullable="false" />
+          <Property Name="ACTIVO" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TIPO">
+          <Key>
+            <PropertyRef Name="ID_TIPO" />
+          </Key>
+          <Property Name="ID_TIPO" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOMBRE_TIPO" Type="varchar(max)" Nullable="false" />
+          <Property Name="FECHA_CREACION" Type="datetime" Nullable="false" />
+          <Property Name="ACTIVO" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="USUARIO">
+          <Key>
+            <PropertyRef Name="ID_USUARIO" />
+          </Key>
+          <Property Name="ID_USUARIO" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="USUARIO" Type="varchar(max)" Nullable="false" />
+          <Property Name="CONTRASENA" Type="varchar(max)" Nullable="false" />
+          <Property Name="NOMBRE_USUARIO" Type="varchar(max)" Nullable="false" />
+          <Property Name="APELLIDO_USUARIO" Type="varchar(max)" Nullable="false" />
+          <Property Name="FECHA_NACIMIENTO" Type="datetime" Nullable="false" />
+          <Property Name="DIRECCION" Type="varchar(max)" Nullable="false" />
+          <Property Name="TELEFONO" Type="varchar(max)" Nullable="false" />
+          <Property Name="CORREO" Type="varchar(max)" Nullable="false" />
+          <Property Name="ID_ROL" Type="bigint" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__AUTOMOVIL__ID_MA__08EA5793">
+          <End Role="MARCA" Type="Self.MARCA" Multiplicity="1" />
+          <End Role="AUTOMOVIL" Type="Self.AUTOMOVIL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MARCA">
+              <PropertyRef Name="ID_MARCA" />
+            </Principal>
+            <Dependent Role="AUTOMOVIL">
+              <PropertyRef Name="ID_MARCA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__AUTOMOVIL__ID_TI__09DE7BCC">
+          <End Role="TIPO" Type="Self.TIPO" Multiplicity="1" />
+          <End Role="AUTOMOVIL" Type="Self.AUTOMOVIL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TIPO">
+              <PropertyRef Name="ID_TIPO" />
+            </Principal>
+            <Dependent Role="AUTOMOVIL">
+              <PropertyRef Name="ID_TIPO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RENTA__ID_AUTOMO__173876EA">
+          <End Role="AUTOMOVIL" Type="Self.AUTOMOVIL" Multiplicity="1" />
+          <End Role="RENTA" Type="Self.RENTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AUTOMOVIL">
+              <PropertyRef Name="ID_AUTOMOVIL" />
+            </Principal>
+            <Dependent Role="RENTA">
+              <PropertyRef Name="ID_AUTOMOVIL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RENTA__ID_USUARI__182C9B23">
+          <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
+          <End Role="RENTA" Type="Self.RENTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIO">
+              <PropertyRef Name="ID_USUARIO" />
+            </Principal>
+            <Dependent Role="RENTA">
+              <PropertyRef Name="ID_USUARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__USUARIO__ID_ROL__1273C1CD">
+          <End Role="ROL" Type="Self.ROL" Multiplicity="1" />
+          <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ROL">
+              <PropertyRef Name="ID_ROL" />
+            </Principal>
+            <Dependent Role="USUARIO">
+              <PropertyRef Name="ID_ROL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="ListarAutomovilesActivos_SP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="ListarAutomovilesDisponibles_SP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="ListarMarcasActivas_SP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="ListarRolesActivos_SP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="ListarTiposActivos_SP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="ListarUsuarios_SP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SoftDeleteAutomovilById_SP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_AUTOMOVIL" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="SoftDeleteMarcaById_SP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_MARCA" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="SoftDeleteTipoById_SP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_TIPO" Type="bigint" Mode="In" />
+        </Function>
+        <EntityContainer Name="SP_DB_RENTA_AUTO_ModelStoreContainer">
+          <EntitySet Name="AUTOMOVIL" EntityType="Self.AUTOMOVIL" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MARCA" EntityType="Self.MARCA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RENTA" EntityType="Self.RENTA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ROL" EntityType="Self.ROL" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TIPO" EntityType="Self.TIPO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="USUARIO" EntityType="Self.USUARIO" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__AUTOMOVIL__ID_MA__08EA5793" Association="Self.FK__AUTOMOVIL__ID_MA__08EA5793">
+            <End Role="MARCA" EntitySet="MARCA" />
+            <End Role="AUTOMOVIL" EntitySet="AUTOMOVIL" />
+          </AssociationSet>
+          <AssociationSet Name="FK__AUTOMOVIL__ID_TI__09DE7BCC" Association="Self.FK__AUTOMOVIL__ID_TI__09DE7BCC">
+            <End Role="TIPO" EntitySet="TIPO" />
+            <End Role="AUTOMOVIL" EntitySet="AUTOMOVIL" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RENTA__ID_AUTOMO__173876EA" Association="Self.FK__RENTA__ID_AUTOMO__173876EA">
+            <End Role="AUTOMOVIL" EntitySet="AUTOMOVIL" />
+            <End Role="RENTA" EntitySet="RENTA" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RENTA__ID_USUARI__182C9B23" Association="Self.FK__RENTA__ID_USUARI__182C9B23">
+            <End Role="USUARIO" EntitySet="USUARIO" />
+            <End Role="RENTA" EntitySet="RENTA" />
+          </AssociationSet>
+          <AssociationSet Name="FK__USUARIO__ID_ROL__1273C1CD" Association="Self.FK__USUARIO__ID_ROL__1273C1CD">
+            <End Role="ROL" EntitySet="ROL" />
+            <End Role="USUARIO" EntitySet="USUARIO" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SP_DB_RENTA_AUTO_Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AUTOMOVIL">
+          <Key>
+            <PropertyRef Name="ID_AUTOMOVIL" />
+          </Key>
+          <Property Name="ID_AUTOMOVIL" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GAMA" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FECHA_CREACION" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PRECIO" Type="Int64" Nullable="false" />
+          <Property Name="OCUPADO" Type="Boolean" Nullable="false" />
+          <Property Name="ACTIVO" Type="Boolean" Nullable="false" />
+          <Property Name="ID_MARCA" Type="Int64" Nullable="false" />
+          <Property Name="ID_TIPO" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="MARCA" Relationship="Self.FK__AUTOMOVIL__ID_MA__08EA5793" FromRole="AUTOMOVIL" ToRole="MARCA" />
+          <NavigationProperty Name="TIPO" Relationship="Self.FK__AUTOMOVIL__ID_TI__09DE7BCC" FromRole="AUTOMOVIL" ToRole="TIPO" />
+          <NavigationProperty Name="RENTA" Relationship="Self.FK__RENTA__ID_AUTOMO__173876EA" FromRole="AUTOMOVIL" ToRole="RENTA" />
+        </EntityType>
+        <EntityType Name="MARCA">
+          <Key>
+            <PropertyRef Name="ID_MARCA" />
+          </Key>
+          <Property Name="ID_MARCA" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOMBRE_MARCA" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FECHA_CREACION" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ACTIVO" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="AUTOMOVIL" Relationship="Self.FK__AUTOMOVIL__ID_MA__08EA5793" FromRole="MARCA" ToRole="AUTOMOVIL" />
+        </EntityType>
+        <EntityType Name="RENTA">
+          <Key>
+            <PropertyRef Name="ID_RENTA" />
+          </Key>
+          <Property Name="ID_RENTA" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PRECIO" Type="Int64" Nullable="false" />
+          <Property Name="FECHA_ALQUILER" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ID_AUTOMOVIL" Type="Int64" Nullable="false" />
+          <Property Name="ID_USUARIO" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="AUTOMOVIL" Relationship="Self.FK__RENTA__ID_AUTOMO__173876EA" FromRole="RENTA" ToRole="AUTOMOVIL" />
+          <NavigationProperty Name="USUARIO" Relationship="Self.FK__RENTA__ID_USUARI__182C9B23" FromRole="RENTA" ToRole="USUARIO" />
+        </EntityType>
+        <EntityType Name="ROL">
+          <Key>
+            <PropertyRef Name="ID_ROL" />
+          </Key>
+          <Property Name="ID_ROL" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOMBRE_ROL" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FECHA_CREACION" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ACTIVO" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="USUARIO" Relationship="Self.FK__USUARIO__ID_ROL__1273C1CD" FromRole="ROL" ToRole="USUARIO" />
+        </EntityType>
+        <EntityType Name="TIPO">
+          <Key>
+            <PropertyRef Name="ID_TIPO" />
+          </Key>
+          <Property Name="ID_TIPO" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOMBRE_TIPO" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FECHA_CREACION" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ACTIVO" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="AUTOMOVIL" Relationship="Self.FK__AUTOMOVIL__ID_TI__09DE7BCC" FromRole="TIPO" ToRole="AUTOMOVIL" />
+        </EntityType>
+        <EntityType Name="USUARIO">
+          <Key>
+            <PropertyRef Name="ID_USUARIO" />
+          </Key>
+          <Property Name="ID_USUARIO" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="USUARIO1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CONTRASENA" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NOMBRE_USUARIO" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="APELLIDO_USUARIO" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FECHA_NACIMIENTO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DIRECCION" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TELEFONO" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CORREO" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ID_ROL" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="RENTA" Relationship="Self.FK__RENTA__ID_USUARI__182C9B23" FromRole="USUARIO" ToRole="RENTA" />
+          <NavigationProperty Name="ROL" Relationship="Self.FK__USUARIO__ID_ROL__1273C1CD" FromRole="USUARIO" ToRole="ROL" />
+        </EntityType>
+        <Association Name="FK__AUTOMOVIL__ID_MA__08EA5793">
+          <End Role="MARCA" Type="Self.MARCA" Multiplicity="1" />
+          <End Role="AUTOMOVIL" Type="Self.AUTOMOVIL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MARCA">
+              <PropertyRef Name="ID_MARCA" />
+            </Principal>
+            <Dependent Role="AUTOMOVIL">
+              <PropertyRef Name="ID_MARCA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__AUTOMOVIL__ID_TI__09DE7BCC">
+          <End Role="TIPO" Type="Self.TIPO" Multiplicity="1" />
+          <End Role="AUTOMOVIL" Type="Self.AUTOMOVIL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TIPO">
+              <PropertyRef Name="ID_TIPO" />
+            </Principal>
+            <Dependent Role="AUTOMOVIL">
+              <PropertyRef Name="ID_TIPO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RENTA__ID_AUTOMO__173876EA">
+          <End Role="AUTOMOVIL" Type="Self.AUTOMOVIL" Multiplicity="1" />
+          <End Role="RENTA" Type="Self.RENTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AUTOMOVIL">
+              <PropertyRef Name="ID_AUTOMOVIL" />
+            </Principal>
+            <Dependent Role="RENTA">
+              <PropertyRef Name="ID_AUTOMOVIL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RENTA__ID_USUARI__182C9B23">
+          <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
+          <End Role="RENTA" Type="Self.RENTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIO">
+              <PropertyRef Name="ID_USUARIO" />
+            </Principal>
+            <Dependent Role="RENTA">
+              <PropertyRef Name="ID_USUARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__USUARIO__ID_ROL__1273C1CD">
+          <End Role="ROL" Type="Self.ROL" Multiplicity="1" />
+          <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ROL">
+              <PropertyRef Name="ID_ROL" />
+            </Principal>
+            <Dependent Role="USUARIO">
+              <PropertyRef Name="ID_ROL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SP_DB_RENTA_AUTO_Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AUTOMOVIL" EntityType="Self.AUTOMOVIL" />
+          <EntitySet Name="MARCA" EntityType="Self.MARCA" />
+          <EntitySet Name="RENTA" EntityType="Self.RENTA" />
+          <EntitySet Name="ROL" EntityType="Self.ROL" />
+          <EntitySet Name="TIPO" EntityType="Self.TIPO" />
+          <EntitySet Name="USUARIO" EntityType="Self.USUARIO" />
+          <AssociationSet Name="FK__AUTOMOVIL__ID_MA__08EA5793" Association="Self.FK__AUTOMOVIL__ID_MA__08EA5793">
+            <End Role="MARCA" EntitySet="MARCA" />
+            <End Role="AUTOMOVIL" EntitySet="AUTOMOVIL" />
+          </AssociationSet>
+          <AssociationSet Name="FK__AUTOMOVIL__ID_TI__09DE7BCC" Association="Self.FK__AUTOMOVIL__ID_TI__09DE7BCC">
+            <End Role="TIPO" EntitySet="TIPO" />
+            <End Role="AUTOMOVIL" EntitySet="AUTOMOVIL" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RENTA__ID_AUTOMO__173876EA" Association="Self.FK__RENTA__ID_AUTOMO__173876EA">
+            <End Role="AUTOMOVIL" EntitySet="AUTOMOVIL" />
+            <End Role="RENTA" EntitySet="RENTA" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RENTA__ID_USUARI__182C9B23" Association="Self.FK__RENTA__ID_USUARI__182C9B23">
+            <End Role="USUARIO" EntitySet="USUARIO" />
+            <End Role="RENTA" EntitySet="RENTA" />
+          </AssociationSet>
+          <AssociationSet Name="FK__USUARIO__ID_ROL__1273C1CD" Association="Self.FK__USUARIO__ID_ROL__1273C1CD">
+            <End Role="ROL" EntitySet="ROL" />
+            <End Role="USUARIO" EntitySet="USUARIO" />
+          </AssociationSet>
+          <FunctionImport Name="ListarAutomovilesActivos_SP" ReturnType="Collection(SP_DB_RENTA_AUTO_Model.ListarAutomovilesActivos_SP_Result)" />
+          <FunctionImport Name="ListarAutomovilesDisponibles_SP" ReturnType="Collection(SP_DB_RENTA_AUTO_Model.ListarAutomovilesDisponibles_SP_Result)" />
+          <FunctionImport Name="ListarMarcasActivas_SP" ReturnType="Collection(SP_DB_RENTA_AUTO_Model.ListarMarcasActivas_SP_Result)" />
+          <FunctionImport Name="ListarRolesActivos_SP" ReturnType="Collection(SP_DB_RENTA_AUTO_Model.ListarRolesActivos_SP_Result)" />
+          <FunctionImport Name="ListarTiposActivos_SP" ReturnType="Collection(SP_DB_RENTA_AUTO_Model.ListarTiposActivos_SP_Result)" />
+          <FunctionImport Name="ListarUsuarios_SP" ReturnType="Collection(SP_DB_RENTA_AUTO_Model.ListarUsuarios_SP_Result)" />
+          <FunctionImport Name="SoftDeleteAutomovilById_SP">
+            <Parameter Name="ID_AUTOMOVIL" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="SoftDeleteMarcaById_SP">
+            <Parameter Name="ID_MARCA" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="SoftDeleteTipoById_SP">
+            <Parameter Name="ID_TIPO" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ListarAutomovilesDisponibles_SP1" ReturnType="Collection(SP_DB_RENTA_AUTO_Model.ListarAutomovilesDisponibles_SP1_Result1)" />
+        </EntityContainer>
+        <ComplexType Name="ListarAutomovilesActivos_SP_Result">
+          <Property Type="Int64" Name="ID_AUTOMOVIL" Nullable="false" />
+          <Property Type="String" Name="GAMA" Nullable="false" />
+          <Property Type="DateTime" Name="FECHA_CREACION" Nullable="false" Precision="23" />
+          <Property Type="Int64" Name="PRECIO" Nullable="false" />
+          <Property Type="Boolean" Name="OCUPADO" Nullable="false" />
+          <Property Type="Boolean" Name="ACTIVO" Nullable="false" />
+          <Property Type="Int64" Name="ID_MARCA" Nullable="false" />
+          <Property Type="Int64" Name="ID_TIPO" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="ListarAutomovilesDisponibles_SP_Result">
+          <Property Type="Int64" Name="ID_AUTOMOVIL" Nullable="false" />
+          <Property Type="String" Name="GAMA" Nullable="false" />
+          <Property Type="Int64" Name="PRECIO" Nullable="false" />
+          <Property Type="String" Name="NOMBRE_MARCA" Nullable="false" />
+          <Property Type="String" Name="NOMBRE_TIPO" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="ListarMarcasActivas_SP_Result">
+          <Property Type="Int64" Name="ID_MARCA" Nullable="false" />
+          <Property Type="String" Name="NOMBRE_MARCA" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="ListarRolesActivos_SP_Result">
+          <Property Type="Int64" Name="ID_ROL" Nullable="false" />
+          <Property Type="String" Name="NOMBRE_ROL" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="ListarTiposActivos_SP_Result">
+          <Property Type="Int64" Name="ID_TIPO" Nullable="false" />
+          <Property Type="String" Name="NOMBRE_TIPO" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="ListarUsuarios_SP_Result">
+          <Property Type="Int64" Name="ID_USUARIO" Nullable="false" />
+          <Property Type="String" Name="USUARIO" Nullable="false" />
+          <Property Type="String" Name="CONTRASENA" Nullable="false" />
+          <Property Type="String" Name="NOMBRE_USUARIO" Nullable="false" />
+          <Property Type="String" Name="APELLIDO_USUARIO" Nullable="false" />
+          <Property Type="DateTime" Name="FECHA_NACIMIENTO" Nullable="false" Precision="23" />
+          <Property Type="String" Name="DIRECCION" Nullable="false" />
+          <Property Type="String" Name="TELEFONO" Nullable="false" />
+          <Property Type="String" Name="CORREO" Nullable="false" />
+          <Property Type="String" Name="NOMBRE_ROL" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="ListarAutomovilesDisponibles_SP1_Result">
+          <Property Type="Int64" Name="ID_AUTOMOVIL" Nullable="false" />
+          <Property Type="String" Name="GAMA" Nullable="false" />
+          <Property Type="Int64" Name="PRECIO" Nullable="false" />
+          <Property Type="String" Name="NOMBRE_MARCA" Nullable="false" />
+          <Property Type="String" Name="NOMBRE_TIPO" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="ListarAutomovilesDisponibles_SP1_Result1">
+          <Property Type="Int64" Name="ID_AUTOMOVIL" Nullable="false" />
+          <Property Type="String" Name="GAMA" Nullable="false" />
+          <Property Type="Int64" Name="PRECIO" Nullable="false" />
+          <Property Type="String" Name="NOMBRE_MARCA" Nullable="false" />
+          <Property Type="String" Name="NOMBRE_TIPO" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SP_DB_RENTA_AUTO_ModelStoreContainer" CdmEntityContainer="SP_DB_RENTA_AUTO_Entities">
+          <EntitySetMapping Name="AUTOMOVIL">
+            <EntityTypeMapping TypeName="SP_DB_RENTA_AUTO_Model.AUTOMOVIL">
+              <MappingFragment StoreEntitySet="AUTOMOVIL">
+                <ScalarProperty Name="ID_AUTOMOVIL" ColumnName="ID_AUTOMOVIL" />
+                <ScalarProperty Name="GAMA" ColumnName="GAMA" />
+                <ScalarProperty Name="FECHA_CREACION" ColumnName="FECHA_CREACION" />
+                <ScalarProperty Name="PRECIO" ColumnName="PRECIO" />
+                <ScalarProperty Name="OCUPADO" ColumnName="OCUPADO" />
+                <ScalarProperty Name="ACTIVO" ColumnName="ACTIVO" />
+                <ScalarProperty Name="ID_MARCA" ColumnName="ID_MARCA" />
+                <ScalarProperty Name="ID_TIPO" ColumnName="ID_TIPO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MARCA">
+            <EntityTypeMapping TypeName="SP_DB_RENTA_AUTO_Model.MARCA">
+              <MappingFragment StoreEntitySet="MARCA">
+                <ScalarProperty Name="ID_MARCA" ColumnName="ID_MARCA" />
+                <ScalarProperty Name="NOMBRE_MARCA" ColumnName="NOMBRE_MARCA" />
+                <ScalarProperty Name="FECHA_CREACION" ColumnName="FECHA_CREACION" />
+                <ScalarProperty Name="ACTIVO" ColumnName="ACTIVO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RENTA">
+            <EntityTypeMapping TypeName="SP_DB_RENTA_AUTO_Model.RENTA">
+              <MappingFragment StoreEntitySet="RENTA">
+                <ScalarProperty Name="ID_RENTA" ColumnName="ID_RENTA" />
+                <ScalarProperty Name="PRECIO" ColumnName="PRECIO" />
+                <ScalarProperty Name="FECHA_ALQUILER" ColumnName="FECHA_ALQUILER" />
+                <ScalarProperty Name="ID_AUTOMOVIL" ColumnName="ID_AUTOMOVIL" />
+                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ROL">
+            <EntityTypeMapping TypeName="SP_DB_RENTA_AUTO_Model.ROL">
+              <MappingFragment StoreEntitySet="ROL">
+                <ScalarProperty Name="ID_ROL" ColumnName="ID_ROL" />
+                <ScalarProperty Name="NOMBRE_ROL" ColumnName="NOMBRE_ROL" />
+                <ScalarProperty Name="FECHA_CREACION" ColumnName="FECHA_CREACION" />
+                <ScalarProperty Name="ACTIVO" ColumnName="ACTIVO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TIPO">
+            <EntityTypeMapping TypeName="SP_DB_RENTA_AUTO_Model.TIPO">
+              <MappingFragment StoreEntitySet="TIPO">
+                <ScalarProperty Name="ID_TIPO" ColumnName="ID_TIPO" />
+                <ScalarProperty Name="NOMBRE_TIPO" ColumnName="NOMBRE_TIPO" />
+                <ScalarProperty Name="FECHA_CREACION" ColumnName="FECHA_CREACION" />
+                <ScalarProperty Name="ACTIVO" ColumnName="ACTIVO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="USUARIO">
+            <EntityTypeMapping TypeName="SP_DB_RENTA_AUTO_Model.USUARIO">
+              <MappingFragment StoreEntitySet="USUARIO">
+                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+                <ScalarProperty Name="USUARIO1" ColumnName="USUARIO" />
+                <ScalarProperty Name="CONTRASENA" ColumnName="CONTRASENA" />
+                <ScalarProperty Name="NOMBRE_USUARIO" ColumnName="NOMBRE_USUARIO" />
+                <ScalarProperty Name="APELLIDO_USUARIO" ColumnName="APELLIDO_USUARIO" />
+                <ScalarProperty Name="FECHA_NACIMIENTO" ColumnName="FECHA_NACIMIENTO" />
+                <ScalarProperty Name="DIRECCION" ColumnName="DIRECCION" />
+                <ScalarProperty Name="TELEFONO" ColumnName="TELEFONO" />
+                <ScalarProperty Name="CORREO" ColumnName="CORREO" />
+                <ScalarProperty Name="ID_ROL" ColumnName="ID_ROL" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="ListarAutomovilesActivos_SP" FunctionName="SP_DB_RENTA_AUTO_Model.Store.ListarAutomovilesActivos_SP">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SP_DB_RENTA_AUTO_Model.ListarAutomovilesActivos_SP_Result">
+                <ScalarProperty Name="ID_AUTOMOVIL" ColumnName="ID_AUTOMOVIL" />
+                <ScalarProperty Name="GAMA" ColumnName="GAMA" />
+                <ScalarProperty Name="FECHA_CREACION" ColumnName="FECHA_CREACION" />
+                <ScalarProperty Name="PRECIO" ColumnName="PRECIO" />
+                <ScalarProperty Name="OCUPADO" ColumnName="OCUPADO" />
+                <ScalarProperty Name="ACTIVO" ColumnName="ACTIVO" />
+                <ScalarProperty Name="ID_MARCA" ColumnName="ID_MARCA" />
+                <ScalarProperty Name="ID_TIPO" ColumnName="ID_TIPO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ListarAutomovilesDisponibles_SP" FunctionName="SP_DB_RENTA_AUTO_Model.Store.ListarAutomovilesDisponibles_SP">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SP_DB_RENTA_AUTO_Model.ListarAutomovilesDisponibles_SP_Result">
+                <ScalarProperty Name="ID_AUTOMOVIL" ColumnName="ID_AUTOMOVIL" />
+                <ScalarProperty Name="GAMA" ColumnName="GAMA" />
+                <ScalarProperty Name="PRECIO" ColumnName="PRECIO" />
+                <ScalarProperty Name="NOMBRE_MARCA" ColumnName="NOMBRE_MARCA" />
+                <ScalarProperty Name="NOMBRE_TIPO" ColumnName="NOMBRE_TIPO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ListarMarcasActivas_SP" FunctionName="SP_DB_RENTA_AUTO_Model.Store.ListarMarcasActivas_SP">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SP_DB_RENTA_AUTO_Model.ListarMarcasActivas_SP_Result">
+                <ScalarProperty Name="ID_MARCA" ColumnName="ID_MARCA" />
+                <ScalarProperty Name="NOMBRE_MARCA" ColumnName="NOMBRE_MARCA" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ListarRolesActivos_SP" FunctionName="SP_DB_RENTA_AUTO_Model.Store.ListarRolesActivos_SP">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SP_DB_RENTA_AUTO_Model.ListarRolesActivos_SP_Result">
+                <ScalarProperty Name="ID_ROL" ColumnName="ID_ROL" />
+                <ScalarProperty Name="NOMBRE_ROL" ColumnName="NOMBRE_ROL" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ListarTiposActivos_SP" FunctionName="SP_DB_RENTA_AUTO_Model.Store.ListarTiposActivos_SP">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SP_DB_RENTA_AUTO_Model.ListarTiposActivos_SP_Result">
+                <ScalarProperty Name="ID_TIPO" ColumnName="ID_TIPO" />
+                <ScalarProperty Name="NOMBRE_TIPO" ColumnName="NOMBRE_TIPO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ListarUsuarios_SP" FunctionName="SP_DB_RENTA_AUTO_Model.Store.ListarUsuarios_SP">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SP_DB_RENTA_AUTO_Model.ListarUsuarios_SP_Result">
+                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+                <ScalarProperty Name="USUARIO" ColumnName="USUARIO" />
+                <ScalarProperty Name="CONTRASENA" ColumnName="CONTRASENA" />
+                <ScalarProperty Name="NOMBRE_USUARIO" ColumnName="NOMBRE_USUARIO" />
+                <ScalarProperty Name="APELLIDO_USUARIO" ColumnName="APELLIDO_USUARIO" />
+                <ScalarProperty Name="FECHA_NACIMIENTO" ColumnName="FECHA_NACIMIENTO" />
+                <ScalarProperty Name="DIRECCION" ColumnName="DIRECCION" />
+                <ScalarProperty Name="TELEFONO" ColumnName="TELEFONO" />
+                <ScalarProperty Name="CORREO" ColumnName="CORREO" />
+                <ScalarProperty Name="NOMBRE_ROL" ColumnName="NOMBRE_ROL" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SoftDeleteAutomovilById_SP" FunctionName="SP_DB_RENTA_AUTO_Model.Store.SoftDeleteAutomovilById_SP" />
+          <FunctionImportMapping FunctionImportName="SoftDeleteMarcaById_SP" FunctionName="SP_DB_RENTA_AUTO_Model.Store.SoftDeleteMarcaById_SP" />
+          <FunctionImportMapping FunctionImportName="SoftDeleteTipoById_SP" FunctionName="SP_DB_RENTA_AUTO_Model.Store.SoftDeleteTipoById_SP" />
+          <FunctionImportMapping FunctionImportName="ListarAutomovilesDisponibles_SP1" FunctionName="SP_DB_RENTA_AUTO_Model.Store.ListarAutomovilesDisponibles_SP">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SP_DB_RENTA_AUTO_Model.ListarAutomovilesDisponibles_SP1_Result1">
+                <ScalarProperty Name="ID_AUTOMOVIL" ColumnName="ID_AUTOMOVIL" />
+                <ScalarProperty Name="GAMA" ColumnName="GAMA" />
+                <ScalarProperty Name="PRECIO" ColumnName="PRECIO" />
+                <ScalarProperty Name="NOMBRE_MARCA" ColumnName="NOMBRE_MARCA" />
+                <ScalarProperty Name="NOMBRE_TIPO" ColumnName="NOMBRE_TIPO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
