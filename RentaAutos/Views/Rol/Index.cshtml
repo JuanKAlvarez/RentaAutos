@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<RentaAutos.Models.ROL>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Rol";
 }
 <div class="panel-heading">
     <h3>@ViewBag.Title  | @Html.ActionLink(" ", "Create", null, new { @class = "btn-default glyphicon-plus", data_toggle = "tooltip", data_placement = "bottom", data_original_title = "Nuevo" }) </h3>
@@ -17,7 +17,7 @@
         <th>
             @Html.DisplayNameFor(model => model.ACTIVO)
         </th>
-        <th></th>
+        <th>Opciones</th>
     </tr>
 
     @foreach (var item in Model)

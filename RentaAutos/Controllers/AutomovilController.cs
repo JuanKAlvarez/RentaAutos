@@ -19,7 +19,7 @@ namespace RentaAutos.Controllers
         public async Task<ActionResult> Index()
         {
             var aUTOMOVIL = db.AUTOMOVIL.Include(a => a.MARCA).Include(a => a.TIPO);
-            return View(await aUTOMOVIL.ToListAsync());
+            return View(await aUTOMOVIL.Where(X=> X.ACTIVO).ToListAsync());
         }
 
         // GET: Automovil/Details/5
@@ -54,6 +54,8 @@ namespace RentaAutos.Controllers
         {
             if (ModelState.IsValid)
             {
+                aUTOMOVIL.ACTIVO = true;
+                aUTOMOVIL.OCUPADO = false;
                 db.AUTOMOVIL.Add(aUTOMOVIL);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -99,30 +101,23 @@ namespace RentaAutos.Controllers
             return View(aUTOMOVIL);
         }
 
-        // GET: Automovil/Delete/5
-        public async Task<ActionResult> Delete(long? id)
+        [HttpPost]
+        public async Task<ActionResult> Delete(long id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                AUTOMOVIL aUTOMOVIL = await db.AUTOMOVIL.FindAsync(id);
+                aUTOMOVIL.ACTIVO = false;
+                db.Entry(aUTOMOVIL).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+                return Json(new { success = true, message = "El automovil ha sido Eliminada exitosamente" }, JsonRequestBehavior.AllowGet);
             }
-            AUTOMOVIL aUTOMOVIL = await db.AUTOMOVIL.FindAsync(id);
-            if (aUTOMOVIL == null)
+            catch (Exception ex)
             {
-                return HttpNotFound();
+                String msj = ex.Message;
+                throw;
             }
-            return View(aUTOMOVIL);
-        }
-
-        // POST: Automovil/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(long id)
-        {
-            AUTOMOVIL aUTOMOVIL = await db.AUTOMOVIL.FindAsync(id);
-            db.AUTOMOVIL.Remove(aUTOMOVIL);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            
         }
 
         protected override void Dispose(bool disposing)

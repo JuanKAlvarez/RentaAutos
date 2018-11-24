@@ -2463,9 +2463,9 @@ INSERT INTO ROL VALUES ('SUPER ADMINISTRADOR', GETDATE(),1);
 
 --USUARIO
 
-INSERT INTO USUARIO VALUES ('JPOSPINA', '123', 'juan pablo', 'ospina', GETDATE(), '123', '123','nose@gmail',2);
-INSERT INTO USUARIO VALUES ('jcalvarez', '123', 'juan carlos', 'alvarez', GETDATE(), '1234', '1234','nose1@gmail',3);
-INSERT INTO USUARIO VALUES ('surrego', '123', 'sebastian', 'urrego', GETDATE(), '12345', '12345','nos2e@gmail',1);
+INSERT INTO USUARIO VALUES ('JPOSPINA', '123', 'juan pablo', 'ospina', GETDATE(), '123', '123','nose@gmail',1,2);
+INSERT INTO USUARIO VALUES ('jcalvarez', '123', 'juan carlos', 'alvarez', GETDATE(), '1234', '1234','nose1@gmail',1,3);
+INSERT INTO USUARIO VALUES ('surrego', '123', 'sebastian', 'urrego', GETDATE(), '12345', '12345','nos2e@gmail',1,1);
 
 
 SELECT * FROM USUARIO;

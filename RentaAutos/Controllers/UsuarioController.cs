@@ -19,7 +19,7 @@ namespace RentaAutos.Controllers
         public async Task<ActionResult> Index()
         {
             var uSUARIO = db.USUARIO.Include(u => u.ROL);
-            return View(await uSUARIO.ToListAsync());
+            return View(await uSUARIO.Where(x=> x.ACTIVO).ToListAsync());
         }
 
         // GET: Usuario/Details/5
@@ -40,7 +40,7 @@ namespace RentaAutos.Controllers
         // GET: Usuario/Create
         public ActionResult Create()
         {
-            ViewBag.ID_ROL = new SelectList(db.ROL, "ID_ROL", "NOMBRE_ROL");
+            ViewBag.ID_ROL = new SelectList(db.ROL.Where(x => x.ACTIVO), "ID_ROL", "NOMBRE_ROL");
             return View();
         }
 
@@ -53,12 +53,13 @@ namespace RentaAutos.Controllers
         {
             if (ModelState.IsValid)
             {
+                uSUARIO.ACTIVO = true;
                 db.USUARIO.Add(uSUARIO);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ID_ROL = new SelectList(db.ROL, "ID_ROL", "NOMBRE_ROL", uSUARIO.ID_ROL);
+            ViewBag.ID_ROL = new SelectList(db.ROL.Where(x => x.ACTIVO), "ID_ROL", "NOMBRE_ROL", uSUARIO.ID_ROL);
             return View(uSUARIO);
         }
 
@@ -74,7 +75,7 @@ namespace RentaAutos.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.ID_ROL = new SelectList(db.ROL, "ID_ROL", "NOMBRE_ROL", uSUARIO.ID_ROL);
+            ViewBag.ID_ROL = new SelectList(db.ROL.Where(x=> x.ACTIVO), "ID_ROL", "NOMBRE_ROL", uSUARIO.ID_ROL);
             return View(uSUARIO);
         }
 
@@ -83,15 +84,18 @@ namespace RentaAutos.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ID_USUARIO,USUARIO1,CONTRASENA,NOMBRE_USUARIO,APELLIDO_USUARIO,FECHA_NACIMIENTO,DIRECCION,TELEFONO,CORREO,ID_ROL")] USUARIO uSUARIO)
+        public async Task<ActionResult> Edit([Bind(Include = "ID_USUARIO,USUARIO1,CONTRASENA,NOMBRE_USUARIO,APELLIDO_USUARIO,DIRECCION,TELEFONO,CORREO,ID_ROL")] USUARIO uSUARIO)
         {
             if (ModelState.IsValid)
             {
+                var us = await db.USUARIO.FindAsync(uSUARIO.ID_USUARIO);
+                uSUARIO.ACTIVO = true;
+                uSUARIO.FECHA_NACIMIENTO = us.FECHA_NACIMIENTO;
                 db.Entry(uSUARIO).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.ID_ROL = new SelectList(db.ROL, "ID_ROL", "NOMBRE_ROL", uSUARIO.ID_ROL);
+            ViewBag.ID_ROL = new SelectList(db.ROL.Where(x => x.ACTIVO), "ID_ROL", "NOMBRE_ROL", uSUARIO.ID_ROL);
             return View(uSUARIO);
         }
 

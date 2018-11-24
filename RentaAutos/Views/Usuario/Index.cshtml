@@ -1,14 +1,10 @@
 ﻿@model IEnumerable<RentaAutos.Models.USUARIO>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Usuario";
 }
 
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<h2>@ViewBag.Title | @Html.ActionLink(" ", "Create", null, new { @class = "btn-default glyphicon-plus", data_toggle = "tooltip", data_placement = "bottom", data_original_title = "Nuevo" })</h2>
 <table class="table">
     <tr>
         <th>
@@ -18,16 +14,10 @@
             @Html.DisplayNameFor(model => model.USUARIO1)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CONTRASENA)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.NOMBRE_USUARIO)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.APELLIDO_USUARIO)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FECHA_NACIMIENTO)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.DIRECCION)
@@ -38,11 +28,14 @@
         <th>
             @Html.DisplayNameFor(model => model.CORREO)
         </th>
-        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.ACTIVO)
+        </th>
+        <th>Opciones</th>
     </tr>
 
 @foreach (var item in Model) {
-    <tr>
+    <tr id="usuario_@item.ID_USUARIO">
         <td>
             @Html.DisplayFor(modelItem => item.ROL.NOMBRE_ROL)
         </td>
@@ -50,16 +43,10 @@
             @Html.DisplayFor(modelItem => item.USUARIO1)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.CONTRASENA)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.NOMBRE_USUARIO)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.APELLIDO_USUARIO)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FECHA_NACIMIENTO)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.DIRECCION)
@@ -71,11 +58,120 @@
             @Html.DisplayFor(modelItem => item.CORREO)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID_USUARIO }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID_USUARIO }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID_USUARIO })
+            @if (item.ACTIVO)
+                {
+                <label class="label label-success">Si</label>
+            }
+            else
+            {
+                <label class="label label-danger">No</label>
+            }
+        </td>
+        <td>
+            @Html.ActionLink(" ", "Edit", new { id = item.ID_USUARIO }, new { @class = "btn-default glyphicon glyphicon-pencil", title = "Editar" }) |
+            <a href="#" title="Detalle" onclick="deleteMarca(@item.ID_USUARIO)">
+                <span class="btn-default glyphicon glyphicon-trash"></span>
+            </a> |
+            <a href="#" title="Detalle" onclick="detailMarca(@item.ID_USUARIO)">
+                <span class="btn-default glyphicon glyphicon-check"></span>
+            </a>
         </td>
     </tr>
 }
 
 </table>
+<script src="~/Scripts/SweetAlert.js"></script>
+<script>
+    function detailMarca(id) {
+        $('#rol').text($('#usuario_' + id + ' td:eq(0)').text().trim());
+        $('#usuario').text($('#usuario_' + id + ' td:eq(1)').text().trim());
+        $('#nombre').text($('#usuario_' + id + ' td:eq(2)').text().trim());
+        $('#apellido').text($('#usuario_' + id + ' td:eq(3)').text().trim());
+        $('#direccion').text($('#usuario_' + id + ' td:eq(4)').text().trim());
+        $('#telefono').text($('#usuario_' + id + ' td:eq(5)').text().trim());
+        $('#correo').text($('#usuario_' + id + ' td:eq(6)').text().trim());
+        $('#exampleModal').modal({
+            show: 'false'
+        });
+    }
+    function deleteMarca(id) {
+        swal({
+            title: "Estas seguro?",
+            text: "Deseas eliminar el registro ",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    url: "/Usuario/Delete",
+                    dataType: "json",
+                    type: 'POST',
+                    cache: false,
+                    data: {
+                        id: id
+                    },
+                    success: function (data) {
+                        if (data.success) {
+                            $('#usuario_' + id).remove();
+                            swal(data.message, {
+                                icon: "success",
+                            });
+                        } else {
+                            swal("Error !", "Error al eliminar la marca", "error");
+                        }
+                    }
+                });
+            }
+        });
+    }
+</script>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><strong>Detalle usuario</strong></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <label class="col-lg-4"><strong>Rol:</strong></label>
+                    <label id="rol" class="col-lg-8"></label>
+                </div>
+                <div class="row">
+                    <label class="col-lg-4"><strong>Usuario:</strong></label>
+                    <label id="usuario" class="col-lg-8"></label>
+                </div>
+                <div class="row">
+                    <label class="col-lg-4"><strong>Nombre:</strong></label>
+                    <label id="nombre" class="col-lg-8"></label>
+                </div>
+                <div class="row">
+                    <label class="col-lg-4"><strong>Apellido:</strong></label>
+                    <label id="apellido" class="col-lg-8"></label>
+                </div>
+                <div class="row">
+                    <label class="col-lg-4"><strong>Dirección:</strong></label>
+                    <label id="direccion" class="col-lg-8"></label>
+                </div>
+                <div class="row">
+                    <label class="col-lg-4"><strong>Telefono:</strong></label>
+                    <label id="telefono" class="col-lg-8"></label>
+                </div>
+                <div class="row">
+                    <label class="col-lg-4"><strong>Correo:</strong></label>
+                    <label id="correo" class="col-lg-8"></label>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -24,7 +24,8 @@ namespace RentaAutos.Models
 
         [Required]
         [Display(Name = "Fecha Creación")]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
         public DateTime FECHA_CREACION { get; set; }
 
         [Required]

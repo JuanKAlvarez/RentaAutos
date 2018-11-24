@@ -18,7 +18,7 @@ namespace RentaAutos.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required]
-        //[Display(Name = "Numero Marca")]
+        [Display(Name = "Numero Marca")]
         public long ID_MARCA { get; set; }
 
         [Required]
