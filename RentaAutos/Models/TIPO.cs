@@ -16,6 +16,7 @@ namespace RentaAutos.Models
         }
 
         [Key]
+        [Display(Name = "Nombre Tipo")]
         public long ID_TIPO { get; set; }
 
         [Required]

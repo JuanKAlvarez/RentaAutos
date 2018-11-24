@@ -1,38 +1,33 @@
 ﻿@model IEnumerable<RentaAutos.Models.AUTOMOVIL>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Automovil";
 }
 
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<div class="panel-heading">
+    <h3>@ViewBag.Title  | @Html.ActionLink(" ", "Create", null, new { @class = "btn-default glyphicon-plus", data_toggle = "tooltip", data_placement = "bottom", data_original_title = "Nuevo" }) </h3>
+</div>
 <table class="table">
     <tr>
-        <th>
+        <th width="20%">
             @Html.DisplayNameFor(model => model.MARCA.NOMBRE_MARCA)
         </th>
-        <th>
+        <th width="20%">
             @Html.DisplayNameFor(model => model.TIPO.NOMBRE_TIPO)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.GAMA)
-        </th>
-        <th>
+        <th width="10%">
             @Html.DisplayNameFor(model => model.FECHA_CREACION)
         </th>
-        <th>
+        <th width="10%">
             @Html.DisplayNameFor(model => model.PRECIO)
         </th>
-        <th>
+        <th width="10%">
             @Html.DisplayNameFor(model => model.OCUPADO)
         </th>
-        <th>
+        <th width="10%">
             @Html.DisplayNameFor(model => model.ACTIVO)
         </th>
-        <th>
+        <th width="10%">
             <label>Opciones</label>
         </th>
     </tr>
@@ -45,9 +40,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.TIPO.NOMBRE_TIPO)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GAMA)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FECHA_CREACION)
@@ -77,11 +69,13 @@
                 }
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ID_AUTOMOVIL }) |
+                @Html.ActionLink(" ", "Edit", new { id = item.ID_AUTOMOVIL }, new { @class = "btn-default glyphicon glyphicon-pencil", title = "Editar" }) |
+                <a href="#" title="Eliminar" onclick="deleteAuto(@item.ID_AUTOMOVIL)">
+                    <span class="btn-default glyphicon glyphicon-trash"></span>
+                </a> |
                 <a href="#" title="Detalle" onclick="detailAuto(@item.ID_AUTOMOVIL)">
                     <span class="btn-default glyphicon glyphicon-check"></span>
-                </a> |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ID_AUTOMOVIL })
+                </a>
             </td>
         </tr>
     }
@@ -91,9 +85,44 @@
 <script>
     function detailAuto(id) {
         $('#marca').text($('#auto_' + id + ' td:eq(0)').text().trim());
-        $('#fecha').text($('#auto_' + id + ' td:eq(1)').text().trim());
+        $('#tipo').text($('#auto_' + id + ' td:eq(1)').text().trim());
+        $('#precio').text($('#auto_' + id + ' td:eq(3)').text().trim());
+        $('#ocupado').text($('#auto_' + id + ' td:eq(4)').text().trim());
         $('#exampleModal').modal({
             show: 'false'
+        });
+    }
+
+    function deleteAuto(id) {
+        swal({
+            title: "Estas seguro?",
+            text: "Deseas eliminar el registro ",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    url: "/Automovil/Delete",
+                    dataType: "json",
+                    type: 'POST',
+                    cache: false,
+                    data: {
+                        id: id
+                    },
+                    success: function (data) {
+                        if (data.success) {
+                            $('#auto_' + id).remove();
+                            swal(data.message, {
+                                icon: "success",
+                            });
+                        } else {
+                            swal("Error !", "Error al eliminar el tipo", "error");
+                        }
+                    }
+                });
+            }
         });
     }
 </script>
@@ -114,8 +143,18 @@
                     <label id="marca" class="col-lg-8"></label>
                 </div>
                 <div class="row">
-                    <label class="col-lg-4"><strong>Fecha Creacion:</strong></label>
-                    <label id="fecha" class="col-lg-8"></label>
+                    <label class="col-lg-4"><strong>Tipo:</strong></label>
+                    <label id="tipo" class="col-lg-8"></label>
+                </div>
+
+                <div class="row">
+                    <label class="col-lg-4"><strong>Precio:</strong></label>
+                    <label id="precio" class="col-lg-8"></label>
+                </div>
+
+                <div class="row">
+                    <label class="col-lg-4"><strong>Ocupado:</strong></label>
+                    <label id="ocupado" class="col-lg-8"></label>
                 </div>
 
 
