@@ -1,14 +1,12 @@
 ﻿@model IEnumerable<RentaAutos.Models.RENTA>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Renta";
 }
 
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<div class="panel-heading">
+    <h3>@ViewBag.Title  | @Html.ActionLink(" ", "Create", null, new { @class = "btn-default glyphicon-plus", data_toggle = "tooltip", data_placement = "bottom", data_original_title = "Nuevo" }) </h3>
+</div>
 <table class="table">
     <tr>
         <th>

@@ -40,7 +40,18 @@ namespace RentaAutos.Controllers
         // GET: Renta/Create
         public ActionResult Create()
         {
-            ViewBag.ID_AUTOMOVIL = new SelectList(db.AUTOMOVIL, "ID_AUTOMOVIL", "GAMA");
+            var auto = db.AUTOMOVIL.Include(x => x.MARCA).Include(x => x.TIPO).ToList();
+            List<viewModelAutom> listauto = new List<viewModelAutom>();
+            foreach (var item in auto)
+            {
+                listauto.Add(new viewModelAutom
+                {
+                    GAMA = item.MARCA.NOMBRE_MARCA + " - " + item.TIPO.NOMBRE_TIPO,
+                    ID_AUTOMOVIL = item.ID_AUTOMOVIL
+                });
+            }
+            ViewBag.ID_AUTOMOVIL = new SelectList(listauto, "ID_AUTOMOVIL", "GAMA");
+            //ViewBag.ID_AUTOMOVIL = new SelectList(db.AUTOMOVIL, "ID_AUTOMOVIL", "GAMA");
             ViewBag.ID_USUARIO = new SelectList(db.USUARIO, "ID_USUARIO", "USUARIO1");
             return View();
         }
@@ -59,7 +70,17 @@ namespace RentaAutos.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ID_AUTOMOVIL = new SelectList(db.AUTOMOVIL, "ID_AUTOMOVIL", "GAMA", rENTA.ID_AUTOMOVIL);
+            var auto = db.AUTOMOVIL.Include(x => x.MARCA).Include(x => x.TIPO).ToList();
+            List<viewModelAutom> listauto = new List<viewModelAutom>();
+            foreach (var item in auto)
+            {
+                listauto.Add(new viewModelAutom
+                {
+                    GAMA = item.MARCA.NOMBRE_MARCA + " - " + item.TIPO.NOMBRE_TIPO,
+                    ID_AUTOMOVIL = item.ID_AUTOMOVIL
+                });
+            }
+            ViewBag.ID_AUTOMOVIL = new SelectList(listauto, "ID_AUTOMOVIL", "GAMA");
             ViewBag.ID_USUARIO = new SelectList(db.USUARIO, "ID_USUARIO", "USUARIO1", rENTA.ID_USUARIO);
             return View(rENTA);
         }
@@ -76,7 +97,19 @@ namespace RentaAutos.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.ID_AUTOMOVIL = new SelectList(db.AUTOMOVIL, "ID_AUTOMOVIL", "GAMA", rENTA.ID_AUTOMOVIL);
+
+            var auto = db.AUTOMOVIL.Include(x => x.MARCA).Include(x => x.TIPO).ToList();
+            List<viewModelAutom> listauto = new List<viewModelAutom>();
+            foreach (var item in auto)
+            {
+                listauto.Add(new viewModelAutom
+                {
+                    GAMA = item.MARCA.NOMBRE_MARCA + " - " + item.TIPO.NOMBRE_TIPO,
+                    ID_AUTOMOVIL = item.ID_AUTOMOVIL
+                });
+            }
+            ViewBag.ID_AUTOMOVIL = new SelectList(listauto, "ID_AUTOMOVIL", "GAMA", rENTA.ID_AUTOMOVIL);
+            //ViewBag.ID_AUTOMOVIL = new SelectList(db.AUTOMOVIL, "ID_AUTOMOVIL", "GAMA", rENTA.ID_AUTOMOVIL);
             ViewBag.ID_USUARIO = new SelectList(db.USUARIO, "ID_USUARIO", "USUARIO1", rENTA.ID_USUARIO);
             return View(rENTA);
         }
@@ -94,7 +127,18 @@ namespace RentaAutos.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.ID_AUTOMOVIL = new SelectList(db.AUTOMOVIL, "ID_AUTOMOVIL", "GAMA", rENTA.ID_AUTOMOVIL);
+            var auto = db.AUTOMOVIL.Include(x => x.MARCA).Include(x => x.TIPO).ToList();
+            List<viewModelAutom> listauto = new List<viewModelAutom>();
+            foreach (var item in auto)
+            {
+                listauto.Add(new viewModelAutom
+                {
+                    GAMA = item.MARCA.NOMBRE_MARCA + " - " + item.TIPO.NOMBRE_TIPO,
+                    ID_AUTOMOVIL = item.ID_AUTOMOVIL
+                });
+            }
+            ViewBag.ID_AUTOMOVIL = new SelectList(listauto, "ID_AUTOMOVIL", "GAMA", rENTA.ID_AUTOMOVIL);
+            //ViewBag.ID_AUTOMOVIL = new SelectList(db.AUTOMOVIL, "ID_AUTOMOVIL", "GAMA", rENTA.ID_AUTOMOVIL);
             ViewBag.ID_USUARIO = new SelectList(db.USUARIO, "ID_USUARIO", "USUARIO1", rENTA.ID_USUARIO);
             return View(rENTA);
         }
@@ -134,4 +178,13 @@ namespace RentaAutos.Controllers
             base.Dispose(disposing);
         }
     }
+
+    internal class viewModelAutom
+    {
+        public long ID_AUTOMOVIL { get; set; }
+
+        public String GAMA { get; set; }
+    }
 }
+
+
